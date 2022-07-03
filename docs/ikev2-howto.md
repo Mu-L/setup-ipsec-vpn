@@ -24,7 +24,7 @@ By default, IKEv2 is automatically set up when running the VPN setup script. If 
 
 ## Configure IKEv2 VPN clients
 
-*Read this in other languages: [English](ikev2-howto.md#configure-ikev2-vpn-clients), [中文](ikev2-howto-zh.md#配置-ikev2-vpn-客户端). Like this project? You can [show your support or appreciation](https://coindrop.to/hwdsl2).*
+*Read this in other languages: [English](ikev2-howto.md#configure-ikev2-vpn-clients), [中文](ikev2-howto-zh.md#配置-ikev2-vpn-客户端).*
 
 **Note:** To add or export IKEv2 clients, run `sudo ikev2.sh`. Use `-h` to show usage. Client config files can be safely deleted after import.
 
@@ -34,6 +34,10 @@ By default, IKEv2 is automatically set up when running the VPN setup script. If 
 * [Android](#android)
 * [Linux](#linux)
 * [Mikrotik RouterOS](#routeros)
+
+> Like this project? You can show your support or appreciation.
+>
+> <a href="https://ko-fi.com/hwdsl2" target="_blank"><img height="36" width="187" src="docs/images/kofi2.png" border="0" alt="Buy Me a Coffee at ko-fi.com" /></a> &nbsp;<a href="https://coindrop.to/hwdsl2" target="_blank"><img src="docs/images/embed-button.png" height="36" width="145" border="0" alt="Coindrop.to me" /></a>
 
 ### Windows 7, 8, 10 and 11
 
@@ -366,6 +370,8 @@ If you get an error when trying to connect, see [Troubleshooting](#troubleshooti
 
 **Note:** These steps were contributed by [@Unix-User](https://github.com/Unix-User).
 
+It is recommended to use terminal command via SSH connection, eg via Putty.
+
 1. Securely transfer the generated `.p12` file to your computer.
 
    <details>
@@ -377,6 +383,29 @@ If you get an error when trying to connect, see [Troubleshooting](#troubleshooti
    </details>
 
 2. In WinBox, go to System > certificates > import. Import the `.p12` certificate file twice (yes, import the same file two times!). Verify in your certificates panel. You will see 2 files, the one that is marked KT is the key.
+
+   Or you can use terminal instead (empty passphrase):
+   ```bash
+   [admin@MikroTik] > /certificate/import file-name=mikrotik.p12
+   passphrase:
+   
+     certificates-imported: 2
+     private-keys-imported: 0
+            files-imported: 1
+       decryption-failures: 0
+     keys-with-no-certificate: 0
+
+   [admin@MikroTik] > /certificate/import file-name=mikrotik.p12
+   passphrase:
+   
+        certificates-imported: 0
+        private-keys-imported: 1
+               files-imported: 1
+          decryption-failures: 0
+     keys-with-no-certificate: 0
+
+   ```
+   
 
    <details>
    <summary>
@@ -395,23 +424,15 @@ Assuming that your local network behind RouterOS is `192.168.0.0/24`, you can us
 for the entire network, or use `192.168.0.10` for just one device, and so on.
 
    ```bash
-   /ip firewall address-list
-   add address=THESE_ADDRESSES_GO_THROUGH_VPN list=local
-   /ip ipsec mode-config
-   add name=ike2-rw responder=no src-address-list=local
-   /ip ipsec policy group
-   add name=ike2-rw
-   /ip ipsec profile
-   add name=ike2-rw
-   /ip ipsec peer
-   add address=YOUR_VPN_SERVER_IP_OR_DNS_NAME exchange-mode=ike2 name=ike2-rw-client profile=ike2-rw
-   /ip ipsec proposal
-   add name=ike2-rw pfs-group=none
-   /ip ipsec identity
-   add auth-method=digital-signature certificate=IMPORTED_CERTIFICATE generate-policy=port-strict mode-config=ike2-rw \
+   /ip firewall address-list add address=THESE_ADDRESSES_GO_THROUGH_VPN list=local
+   /ip ipsec mode-config add name=ike2-rw responder=no src-address-list=local
+   /ip ipsec policy group add name=ike2-rw
+   /ip ipsec profile add name=ike2-rw
+   /ip ipsec peer add address=YOUR_VPN_SERVER_IP_OR_DNS_NAME exchange-mode=ike2 name=ike2-rw-client profile=ike2-rw
+   /ip ipsec proposal add name=ike2-rw pfs-group=none
+   /ip ipsec identity add auth-method=digital-signature certificate=IMPORTED_CERTIFICATE generate-policy=port-strict mode-config=ike2-rw \
        peer=ike2-rw-client policy-template-group=ike2-rw
-   /ip ipsec policy
-   add group=ike2-rw proposal=ike2-rw template=yes
+   /ip ipsec policy add group=ike2-rw proposal=ike2-rw template=yes
    ```
 4. For more information, see [#1112](https://github.com/hwdsl2/setup-ipsec-vpn/issues/1112#issuecomment-1059628623).
 

@@ -24,7 +24,7 @@ Libreswan 支持通过使用 RSA 签名算法的 X.509 Machine Certificates 来�
 
 ## 配置 IKEv2 VPN 客户端
 
-*其他语言版本: [English](ikev2-howto.md#configure-ikev2-vpn-clients), [中文](ikev2-howto-zh.md#配置-ikev2-vpn-客户端)。如果你喜欢这个项目，可以 [表达你的支持或感谢](https://coindrop.to/hwdsl2)。*
+*其他语言版本: [English](ikev2-howto.md#configure-ikev2-vpn-clients), [中文](ikev2-howto-zh.md#配置-ikev2-vpn-客户端)。*
 
 **注：** 如果要添加或者导出 IKEv2 客户端，运行 `sudo ikev2.sh`。使用 `-h` 显示使用信息。客户端配置文件可以在导入后安全删除。
 
@@ -34,6 +34,10 @@ Libreswan 支持通过使用 RSA 签名算法的 X.509 Machine Certificates 来�
 * [Android](#android)
 * [Linux](#linux)
 * [Mikrotik RouterOS](#routeros)
+
+> 如果你喜欢这个项目，可以表达你的支持或感谢。
+>
+> <a href="https://ko-fi.com/hwdsl2" target="_blank"><img height="36" width="187" src="docs/images/kofi2.png" border="0" alt="Buy Me a Coffee at ko-fi.com" /></a> &nbsp;<a href="https://coindrop.to/hwdsl2" target="_blank"><img src="docs/images/embed-button.png" height="36" width="145" border="0" alt="Coindrop.to me" /></a>
 
 ### Windows 7, 8, 10 和 11
 
